@@ -1,0 +1,32 @@
+{
+	"name": "query-picker",
+	"version": "0.1.0",
+	"description": "A Carousel for a collection of Posts",
+	"author": "The WordPress Contributors",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
+	"files": [
+		"build",
+		"libraries",
+		"query-picker.php"
+	],
+	"scripts": {
+		"build": "wp-scripts build --webpack-copy-php --experimental-modules",
+		"watch": "wp-scripts start --webpack-copy-php --experimental-modules",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-env start --xdebug",
+		"stop": "wp-env stop"
+	},
+	"devDependencies": {
+		"@wordpress/block-editor": "^14.15.0",
+		"@wordpress/blocks": "^14.9.0",
+		"@wordpress/components": "^29.6.0",
+		"@wordpress/env": "^10.20.0",
+		"@wordpress/hooks": "^4.20.0",
+		"@wordpress/scripts": "^30.13.0"
+	}
+}
