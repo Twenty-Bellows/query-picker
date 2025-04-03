@@ -1,13 +1,13 @@
-# Query Carousel
+# Query Picker
 
-A carousel for the query loop
+A Query Loop Variation that allows for custom post picking
 
 ## To Use
 
 Install the plugin.
 
-Add an instance of Query Carousel to a page.
+Add an instance of Query Picker to a page.
 
-If you want previous/next buttons add a buttons block to it.
+Pick your posts
 
 Enjoy
