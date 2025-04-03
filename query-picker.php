@@ -16,7 +16,7 @@ if ( ! defined( 'ABSPATH' ) ) {
 
 add_action('enqueue_block_editor_assets', function () {
 	wp_enqueue_script(
-		'query-picker',
+		'twenty-bellows/query-picker',
 		plugins_url('build/queryPickerEdit.js', __FILE__),
 		['wp-blocks', 'wp-dom-ready', 'wp-edit-post'],
 		filemtime(__DIR__ . '/build/queryPickerEdit.js')
@@ -26,7 +26,7 @@ add_action('enqueue_block_editor_assets', function () {
 
 /**
  *
- * Modify the query for the Query block to use the selected posts from the Query Carousel block.
+ * Modify the query for the Query block to use the selected posts.
  *
  * @see https://developer.wordpress.org/reference/hooks/query_loop_block_query_vars/
  *
@@ -47,7 +47,7 @@ add_filter('query_loop_block_query_vars', function( $query, $block ){
 
 /**
  *
- * Modify the REST API query for all post types to use the selected posts from the Query Carousel block.
+ * Modify the REST API query for all post types to use the selected posts from the Query Picker block.
  * This allows the Query block to use the selected posts when querying for posts in the editor.
  *
  */

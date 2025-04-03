@@ -6,22 +6,33 @@ import { useSelect } from "@wordpress/data";
 import { useEffect, useRef } from "@wordpress/element";
 
 registerBlockVariation("core/query", {
-	name: "carousel-query-picker",
-	title: "Carousel Query Picker",
+	name: "twenty-bellows/query-picker",
+	title: "Query Picker",
 	description: "A Query Loop variation that allows user to pick specific posts.",
 	isActive: ["namespace"],
-	icon: "images-alt2",
 	attributes: {
-		namespace: "carousel-query-picker",
+		namespace: "twenty-bellows/query-picker",
 		className: "is-query-picker",
 	},
-	scope: ["inserter"],
+	scope: ["inserter", "transform"],
 	keywords: ["query"],
+	innerBlocks: [["core/post-template", {}, [["core/post-title", {}]]]],
+	transforms: {
+		from: [
+			{
+				type: "block",
+				blocks: ["core/query"],
+				transform: (attributes, innerBlocks ) => {
+					return createBlock("twenty-bellows/query-picker", attributes, innerBlocks);
+				}
+			},
+		]
+	}
 });
 
 const withQueryPickerControls = (BlockEdit) => (props) => {
 
-	if ( props.attributes?.namespace !== 'carousel-query-picker' ) {
+	if ( props.attributes?.namespace !== 'twenty-bellows/query-picker' ) {
 		return <BlockEdit {...props} />
 	}
 

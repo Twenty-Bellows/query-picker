@@ -1,13 +1,11 @@
 {
 	"name": "query-picker",
 	"version": "0.1.0",
-	"description": "A Carousel for a collection of Posts",
-	"author": "The WordPress Contributors",
-	"license": "GPL-2.0-or-later",
+	"description": "A Query Loop Variation that allows for custom post picking",
+	"author": "pbking",
 	"main": "build/index.js",
 	"files": [
 		"build",
-		"libraries",
 		"query-picker.php"
 	],
 	"scripts": {
