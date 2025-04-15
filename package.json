@@ -16,6 +16,9 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
+		"plugin-unpack": "rm -rf ./release && mkdir -p ./release && unzip -o ./query-picker.zip -d ./release",
+		"plugin-test-env": "wp-now start --blueprint=plugin-test-blueprint.json --path=./release/query-picker",
+		"plugin-test": "npm run build && npm run plugin-zip && npm run plugin-unpack && npm run plugin-test-env",
 		"start": "wp-env start --xdebug",
 		"stop": "wp-env stop"
 	},

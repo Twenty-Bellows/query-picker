@@ -2,9 +2,13 @@
 /**
  * Plugin Name:       Query Picker
  * Description:       A custom block variation of the Query block that allows you to select specific posts.
- * Version:           0.1.0
- * Requires at least: 6.7
- * Requires PHP:      7.4
+ * Requires at least: 6.6
+ * Requires PHP:      7.2
+ * Version:           1.0.0
+ * Author:            Twenty Bellows
+ * Author URI:        https://twentybellows.com
+ * License:           GPL-2.0-or-later
+ * License URI:       https://www.gnu.org/licenses/gpl-2.0.html
  * Text Domain:       query-picker
  *
  * @package QueryPicker
@@ -19,7 +23,8 @@ add_action('enqueue_block_editor_assets', function () {
 		'twenty-bellows/query-picker',
 		plugins_url('build/queryPickerEdit.js', __FILE__),
 		['wp-blocks', 'wp-dom-ready', 'wp-edit-post'],
-		filemtime(__DIR__ . '/build/queryPickerEdit.js')
+		filemtime(__DIR__ . '/build/queryPickerEdit.js'),
+		false
 	);
 });
 
