@@ -1,10 +1,10 @@
 # Query Picker
 
-A WordPress block plugin that extends the Query Loop block with custom post selection capabilities. Query Picker allows you to handpick a specific post to display, giving you precise control over which content appears in your query loops.
+A WordPress block plugin that extends the Query Loop block with custom post selection capabilities. Query Picker allows you to handpick a specific post to display, giving you precise control over what content appears.
 
 ## Description
 
-Query Picker is a lightweight WordPress plugin that adds a powerful variation to the core Query Loop block. Instead of relying on automatic queries based on categories, tags, or other taxonomies, Query Picker lets you manually select exactly which post you want to display. This is perfect for creating curated content collections, featured post sections, or any scenario where you need one specific post.
+Query Picker is a lightweight WordPress plugin that adds a helpful variation to the core Query Loop block. Instead of relying on automatic queries based on categories, tags, or other taxonomies, Query Picker lets you manually select exactly which post you want to display. This is perfect for creating curated content collections, featured post sections, or any scenario where you need one specific post.
 
 ## Features
 
