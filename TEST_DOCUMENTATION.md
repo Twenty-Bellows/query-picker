@@ -2,20 +2,27 @@
 
 ## Overview
 
-This document describes the comprehensive unit test suite for the Query Picker WordPress plugin.
+This document describes the comprehensive unit test suite for the Query Picker WordPress plugin, covering both JavaScript (React/Block Editor) and PHP (WordPress Filters/REST API) components.
 
-## Test Coverage
+## Test Coverage Summary
 
-Current test coverage (as of latest run):
+### JavaScript Tests
 - **Statements**: 97.22%
 - **Branch Coverage**: 95%
 - **Function Coverage**: 91.66%
 - **Line Coverage**: 97.05%
+- **Total Tests**: 18 passing
+
+### PHP Tests
+- **Total Tests**: 14 passing
+- **Assertions**: 39
+- **Coverage**: All public functions tested
 
 ## Running Tests
 
+### JavaScript Tests
 ```bash
-# Run all tests
+# Run all JavaScript tests
 npm test
 
 # Run tests in watch mode
@@ -25,7 +32,19 @@ npm run test:watch
 npm run test:coverage
 ```
 
-## Test Structure
+### PHP Tests
+```bash
+# Run all PHP tests
+composer test
+
+# Run with verbose output
+./vendor/bin/phpunit --verbose
+
+# Run specific test file
+./vendor/bin/phpunit tests/TestQueryPicker.php
+```
+
+## JavaScript Test Structure
 
 ### Test File Location
 - `src/query-picker/edit.test.jsx` - Main test suite for the block editor functionality
@@ -130,34 +149,97 @@ Custom mocks capture onChange handlers and render simplified DOM structures for 
    - Changing selection order
    - Switching between post types
 
-## Dependencies
+## PHP Test Structure
 
-### Test Dependencies
-```json
-{
-  "@testing-library/jest-dom": "^6.1.5",
-  "@testing-library/react": "^14.1.2",
-  "@wordpress/element": "^6.20.0",
-  "@wordpress/scripts": "^30.13.0"
-}
-```
+### Test File Location
+- `tests/TestQueryPicker.php` - Comprehensive PHP unit tests
+- `tests/bootstrap.php` - Test bootstrap with WordPress function mocks
+- `phpunit.xml` - PHPUnit configuration
+
+### Test Categories
+
+#### 1. query_loop_block_query_vars Filter Tests
+Tests for the filter that modifies frontend query loop queries.
+
+**Tests:**
+- Modifies query with valid picked posts
+- Returns unmodified query without picked posts
+- Returns unmodified query with null picked posts
+- Returns unmodified query without query context
+- Preserves existing query arguments
+- Sets correct post__in and orderby values
+
+#### 2. REST API Query Modification Tests
+Tests for the REST API filters that enable editor functionality.
+
+**Tests:**
+- Modifies REST query with valid picked posts
+- Returns unmodified args without pickedPosts parameter
+- Returns unmodified args with empty picked posts array
+- Converts string IDs to integers
+- Preserves existing query arguments
+- Handles mixed numeric and string IDs
+- Works with single post ID
+- Handles large numbers of posts (100+)
+- Preserves post order
+
+### PHP Test Configuration
+
+#### PHPUnit Configuration (`phpunit.xml`)
+- Bootstrap file: `tests/bootstrap.php`
+- Test directory: `./tests/`
+- Excludes vendor and node_modules from coverage
+
+#### Bootstrap File (`tests/bootstrap.php`)
+- Mocks WordPress core functions (add_action, add_filter, wp_enqueue_script, etc.)
+- Defines ABSPATH constant
+- Loads plugin file after mocks are in place
+
+### PHP Mocking Strategy
+
+WordPress functions are mocked using simple function definitions:
+- `add_action()` - No-op mock
+- `add_filter()` - No-op mock
+- `wp_enqueue_script()` - No-op mock
+- `plugins_url()` - Returns mock URL
+- `get_post_types()` - Returns array of common post types
+
+Test objects use anonymous classes to simulate WordPress objects:
+- WP_Block - Simple stdClass with context property
+- WP_REST_Request - Anonymous class with has_param() and get_param() methods
+
+### PHP Edge Cases Tested
+
+1. **Empty/Null Values**
+   - Null picked posts
+   - Empty picked posts array
+   - Missing query context
+   - Missing request parameters
+
+2. **Data Type Handling**
+   - String IDs converted to integers
+   - Mixed string and integer IDs
+   - Large arrays of post IDs (100+)
+   - Single post ID
+
+3. **Query Preservation**
+   - Existing query arguments preserved
+   - Original orderby overridden correctly
+   - post__in set correctly
+   - Order of post IDs maintained
 
 ## Future Test Improvements
 
 Potential areas for additional testing:
 
 1. **Integration Tests**
-   - Test actual block rendering in WordPress editor
-   - Test REST API integration
+   - Test actual block rendering in WordPress editor with real WordPress
+   - Full REST API integration tests with WordPress test framework
 
 2. **E2E Tests**
    - User workflow from block insertion to post selection
    - Frontend rendering verification
-
-3. **PHP Unit Tests**
-   - Test `query_loop_block_query_vars` filter
-   - Test REST API query modifications
-   - Test script enqueuing
+   - Cross-browser testing
 
 ## Maintenance
 
@@ -175,8 +257,33 @@ When modifying the component:
 - Test both happy path and error cases
 - Keep tests focused on single behaviors
 
+## Dependencies
+
+### JavaScript Test Dependencies
+```json
+{
+  "@testing-library/jest-dom": "^6.1.5",
+  "@testing-library/react": "^14.1.2",
+  "@wordpress/element": "^6.20.0",
+  "@wordpress/scripts": "^30.13.0"
+}
+```
+
+### PHP Test Dependencies
+```json
+{
+  "phpunit/phpunit": "^9.6"
+}
+```
+
 ## Additional Resources
 
+### JavaScript Testing
 - [Jest Documentation](https://jestjs.io/)
 - [React Testing Library](https://testing-library.com/react)
 - [WordPress Scripts Testing](https://developer.wordpress.org/block-editor/reference-guides/packages/packages-scripts/#test-unit-js)
+
+### PHP Testing
+- [PHPUnit Documentation](https://phpunit.de/documentation.html)
+- [WordPress Plugin Unit Tests](https://make.wordpress.org/cli/handbook/misc/plugin-unit-tests/)
+- [WordPress PHPUnit Best Practices](https://make.wordpress.org/core/handbook/testing/automated-testing/phpunit/)

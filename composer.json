@@ -1,0 +1,22 @@
+{
+	"name": "twenty-bellows/query-picker",
+	"description": "A Query Loop Variation that allows for custom post picking",
+	"type": "wordpress-plugin",
+	"license": "GPL-2.0-or-later",
+	"authors": [
+		{
+			"name": "Twenty Bellows",
+			"homepage": "https://twentybellows.com"
+		}
+	],
+	"require": {
+		"php": ">=7.2"
+	},
+	"require-dev": {
+		"phpunit/phpunit": "^9.6"
+	},
+	"scripts": {
+		"test": "phpunit",
+		"test:coverage": "phpunit --coverage-text"
+	}
+}
