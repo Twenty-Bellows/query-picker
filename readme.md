@@ -66,15 +66,54 @@ npm install
 
 ### Available Scripts
 
+#### Build & Development
 - `npm run build` - Build the plugin for production
 - `npm run watch` - Start development mode with hot reloading
+- `npm run start` - Start the development environment with wp-env
+- `npm run stop` - Stop the development environment
+
+#### Code Quality
 - `npm run lint:js` - Lint JavaScript files
 - `npm run lint:css` - Lint CSS files
 - `npm run format` - Format code using WordPress coding standards
+
+#### Testing
+- `npm test` - Run JavaScript unit tests
+- `npm run test:watch` - Run JavaScript tests in watch mode
+- `npm run test:coverage` - Run JavaScript tests with coverage report
+- `composer test` - Run PHP unit tests
+
+#### Distribution
 - `npm run plugin-zip` - Create a distributable plugin zip file
 - `npm run plugin-test` - Build and test the plugin in a local environment
-- `npm run start` - Start the development environment with wp-env
-- `npm run stop` - Stop the development environment
+
+### Testing
+
+This plugin includes comprehensive unit test coverage for both JavaScript and PHP code.
+
+#### JavaScript Tests
+- **Framework**: Jest with @testing-library/react
+- **Coverage**: 97%+ (statements, branches, functions, lines)
+- **Tests**: 18 tests covering block registration, HOC logic, post selection, and edge cases
+
+Run JavaScript tests:
+```bash
+npm test                 # Run all tests
+npm run test:watch       # Watch mode
+npm run test:coverage    # With coverage report
+```
+
+#### PHP Tests
+- **Framework**: PHPUnit 9
+- **Tests**: 14 tests covering query modification filters and REST API integration
+- **Coverage**: Comprehensive testing of all public functions
+
+Run PHP tests:
+```bash
+composer test            # Run all tests
+```
+
+See `TEST_DOCUMENTATION.md` for detailed testing documentation.
 
 
 ## Frequently Asked Questions

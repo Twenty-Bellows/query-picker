@@ -18,53 +18,82 @@ if ( ! defined( 'ABSPATH' ) ) {
 	exit; // Exit if accessed directly.
 }
 
-add_action('enqueue_block_editor_assets', function () {
+/**
+ * Enqueue block editor assets.
+ *
+ * @return void
+ */
+function query_picker_enqueue_block_editor_assets() {
 	wp_enqueue_script(
 		'twenty-bellows/query-picker',
-		plugins_url('build/queryPickerEdit.js', __FILE__),
-		['wp-blocks', 'wp-dom-ready', 'wp-edit-post'],
-		filemtime(__DIR__ . '/build/queryPickerEdit.js'),
+		plugins_url( 'build/queryPickerEdit.js', __FILE__ ),
+		array( 'wp-blocks', 'wp-dom-ready', 'wp-edit-post' ),
+		filemtime( __DIR__ . '/build/queryPickerEdit.js' ),
 		false
 	);
-});
-
+}
+add_action( 'enqueue_block_editor_assets', 'query_picker_enqueue_block_editor_assets' );
 
 /**
- *
  * Modify the query for the Query block to use the selected posts.
  *
  * @see https://developer.wordpress.org/reference/hooks/query_loop_block_query_vars/
  *
+ * @param array    $query The query arguments.
+ * @param WP_Block $block The block instance.
+ * @return array Modified query arguments.
  */
-add_filter('query_loop_block_query_vars', function( $query, $block ){
-
-	$query_block_attributes = $block->context['query'];
-
-	if ( ! isset ( $query_block_attributes['pickedPosts']) || count( $query_block_attributes['pickedPosts'] ) === 0 ) {
+function query_picker_modify_query_loop_block_query_vars( $query, $block ) {
+	// Check if block context has query attributes.
+	if ( ! isset( $block->context['query'] ) ) {
 		return $query;
 	}
 
+	$query_block_attributes = $block->context['query'];
+
+	// Check if pickedPosts is set and not empty.
+	if ( ! isset( $query_block_attributes['pickedPosts'] ) || count( $query_block_attributes['pickedPosts'] ) === 0 ) {
+		return $query;
+	}
+
+	// Modify query to use picked posts.
 	$query['post__in'] = $query_block_attributes['pickedPosts'];
-	$query['orderby'] = 'post__in';
+	$query['orderby']  = 'post__in';
 
 	return $query;
-}, 10, 2);
+}
+add_filter( 'query_loop_block_query_vars', 'query_picker_modify_query_loop_block_query_vars', 10, 2 );
 
 /**
+ * Modify REST API query arguments to use picked posts.
  *
- * Modify the REST API query for all post types to use the selected posts from the Query Picker block.
- * This allows the Query block to use the selected posts when querying for posts in the editor.
- *
+ * @param array           $args    Query arguments.
+ * @param WP_REST_Request $request REST request object.
+ * @return array Modified query arguments.
  */
-add_action( 'init', function() {
-	foreach( get_post_types() as $post_type ) {
-		add_filter( "rest_{$post_type}_query", function( $args, $request ) {
-			if ( ! $request->has_param('pickedPosts') || count( $request->get_param('pickedPosts') ) === 0 ) {
-				return $args;
-			}
-			$args['orderby'] = 'post__in';
-			$args['post__in'] = array_map('intval', (array) $request->get_param('pickedPosts'));
-			return $args;
-		}, 10, 2 );
+function query_picker_modify_rest_query( $args, $request ) {
+	// Check if pickedPosts parameter exists and is not empty.
+	if ( ! $request->has_param( 'pickedPosts' ) || count( $request->get_param( 'pickedPosts' ) ) === 0 ) {
+		return $args;
 	}
-}, 12);
+
+	// Modify query to use picked posts.
+	$args['orderby']  = 'post__in';
+	$args['post__in'] = array_map( 'intval', (array) $request->get_param( 'pickedPosts' ) );
+
+	return $args;
+}
+
+/**
+ * Register REST API query filters for all post types.
+ *
+ * @return void
+ */
+function query_picker_register_rest_filters() {
+	$post_types = get_post_types();
+
+	foreach ( $post_types as $post_type ) {
+		add_filter( "rest_{$post_type}_query", 'query_picker_modify_rest_query', 10, 2 );
+	}
+}
+add_action( 'init', 'query_picker_register_rest_filters', 12 );

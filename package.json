@@ -20,12 +20,18 @@
 		"plugin-test-env": "wp-now start --blueprint=plugin-test-blueprint.json --path=./release/query-picker",
 		"plugin-test": "npm run build && npm run plugin-zip && npm run plugin-unpack && npm run plugin-test-env",
 		"start": "wp-env start --xdebug",
-		"stop": "wp-env stop"
+		"stop": "wp-env stop",
+		"test": "wp-scripts test-unit-js",
+		"test:watch": "wp-scripts test-unit-js --watch",
+		"test:coverage": "wp-scripts test-unit-js --coverage"
 	},
 	"devDependencies": {
+		"@testing-library/jest-dom": "^6.1.5",
+		"@testing-library/react": "^14.1.2",
 		"@wordpress/block-editor": "^14.15.0",
 		"@wordpress/blocks": "^14.9.0",
 		"@wordpress/components": "^29.6.0",
+		"@wordpress/element": "^6.20.0",
 		"@wordpress/env": "^10.20.0",
 		"@wordpress/hooks": "^4.20.0",
 		"@wordpress/scripts": "^30.13.0"
